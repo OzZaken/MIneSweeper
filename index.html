@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main sweeper</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="initGame('beginner')">
+
+    <section class="main-sweeper">
+        <!-- Game Header -->
+        <div class="gamer-state">
+            <div class="score"></div>
+            <div class="live"></div>
+            <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
+                onmouseout="onMouseUpFace()">
+            </div>
+            <div class="hint"></div>
+            <div class="timer"></div>
+        </div>
+        
+        <!-- Game Body -->
+        <div onmouseleave="onMouseLeaveBoard()">
+            <table class="game-table">
+                <tbody class="game-board"></tbody>
+            </table>
+        </div>
+        
+        <!-- Game Btns -->
+        <div class="btns-lvl">
+            <button onclick="initGame('beginner')" class="btn" role="button">
+                <span>Beginner</span>
+            </button>
+            <button onclick="initGame('medium')" class="btn" role="button">
+                <span>Medium</span>
+            </button>
+            <button onclick="initGame('expert')" class="btn" role="button">
+                <span>Expert</span>
+            </button>
+        </div>
+
+        <div class="btns-game">
+            <button class="btn" role="button" onclick="onHint()">
+                <span>Hint</span>
+            </button>
+            <button class="btn-mobile" role="button" onclick="onMarkCell()">
+                <span>Mark</span>
+            </button>
+        </div>
+
+    </section>
+
+    <footer>
+        <h3>Main-Sweeper <span> made By &copy; Oz Zaken</span></h3>
+    </footer>
+
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+/* DONE: 1. Board is square and cells are squares */
+/* DONE: 2. Cells keep their size when hovered and when revealed */
+/* Done: 3. Board keeps its position (shouldn't move) along all game */
+/* Done: 5. Add a footer at the bottom of the page with your full name. */
+/* todo: 4. Mines look like mines. */
+
+* {
+    box-sizing: border-box;
+}
+
+:root{
+    --color-primary: #5B42F3;
+    --color-primary: #00bcd4;
+    --clr-sec:#AF40FF;
+}
+/* html{} */
+
+body {
+    overflow-x: hidden;
+    background-color: aliceBlue;
+}
+
+
+table {margin: auto;}
+
+button {cursor: pointer;}
+
+footer {
+    position: fixed;
+    padding: 2px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    background-color: lightsteelblue;
+}
+
+.timer,
+.score {
+    font-size: 20px;
+    color: red;
+    background-color: black;
+    margin: auto;
+    margin-top: 50px;
+    padding: 1px 2px;
+}
+
+.face {
+    cursor: pointer;
+    padding: 10px 10px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 5px 6px 2px;
+    text-shadow: black 0 0 1px;
+
+    background-color: darkgray;
+    border-top: 5px solid rgb(112, 112, 112);
+    border-right: 5px solid rgba(18, 16, 16, 0.806);
+    border-left: 5px solid white;
+    border-bottom: 5px solid rgba(18, 16, 16, 0.806);
+}
+
+.live {
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: black 1px 1px 1px;
+}
+
+.gamer-state {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border: rgb(5, 6, 45) 8px solid;
+    font-size: 24px;
+}
+
+/* .main-sweeper:not(:first-child) { */
+    /* display: flex; */
+    /* justify-content: space-between; */
+    
+    /* background-image: linear-gradient(144deg, #5B42F3, #AF40FF 50%, #00DDEB); */
+    /* border-bottom: rgb(5, 6, 45) 8px solid; */
+    /* border-left: rgb(5, 6, 45) 8px solid; */
+    /* border-right: rgb(5, 6, 45) 8px solid; */
+
+/* } */
+
+/** Cell */
+.cell {
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+
+    width: 35px;
+    height: 35px;
+    max-height: 35px;
+    max-width: 35px;
+    min-height: 35px;
+    min-width: 35px;
+
+    font-weight: bold;
+    font-size: 15px;
+
+    background-color: darkgray;
+    border-top: 5px solid rgb(112, 112, 112);
+    border-right: 5px solid rgba(18, 16, 16, 0.806);
+    border-left: 5px solid white;
+    border-bottom: 5px solid rgba(18, 16, 16, 0.806);
+}
+
+/* .cell[data-minesCount="2"] {color: green;} */
+/* .cell[data-minesCount="3"] {color: red;} */
+/* .cell[data-minesCount="4"] {color: rgb(0, 0, 123);} */
+/* .cell[data-minesCount="5"] {color: purple;} */
+/* .cell[data-minesCount="1"] {color: blue;} */
+.cell[data-minesCount="2"] {
+    color: green;
+}
+
+.cell[data-minesCount="3"] {
+    color: red;
+}
+
+.cell[data-minesCount="4"] {
+    color: rgb(0, 0, 123);
+}
+
+.cell[data-minesCount="5"] {
+    color: purple;
+}
+
+.cell[data-minesCount="1"] {
+    color: blue;
+}
+
+.clicked {
+    background-color: lightslategray;
+    border-top: 3px solid black;
+    border-right: 3px solid white;
+    border-left: 3px solid black;
+    border-bottom: 3px solid white;
+}
+
+.cell.marked {
+    background-color: red;
+    border: 2;
+    border-radius: 1;
+    color: red;
+}
+
+.cell::selection {
+    background-color: transparent;
+}
+
+
+
+.btn {
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 12px;
+    justify-content: center;
+    line-height: 1em;
+    padding: 3px;
+    text-decoration: none;
+    white-space: nowrap;
+    /* border: 0; */
+    /* align-items: center; */
+    /* touch-action: manipulation; */
+}
+
+.btn:active,
+.btn:hover {
+    outline: 0;
+}
+
+.btn span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.btn:hover span {
+    background: none;
+}
+
+/** Tablet */
+@media (min-width: 768px) {
+    /* .levels-btns { */
+    /* /~ unset ~/ */
+    /* } */
+
+    /* .btn { */
+        /* font-size: 22px; */
+    /* } */
+
+    /* .face { */
+        /* font-size: 50px; */
+    /* } */
+
+    /* .cell { */
+        /* width: 35px; */
+        /* height: 35px; */
+        /* max-height: 35px; */
+        /* max-width: 35px; */
+        /* min-height: 35px; */
+        /* min-width: 35px; */
+    /* } */
+
+    /* .levels-btns { */
+        /* bottom: 50%; */
+        /* right: 0; */
+        /* flex-direction: column; */
+        /* transform: translateX(100%); */
+        /* width: max-content; */
+    /* } */
+
+}
+
+/** Desktop */
+@media (min-width: 1024x) {
+
+    /* .levels-btns {} */
+}
+
