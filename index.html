@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main sweeper</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
 </head>
 
 <body onload="initGame('beginner')">
@@ -32,13 +32,13 @@
         
         <!-- Game Btns -->
         <div class="btns-lvl">
-            <button onclick="initGame('beginner')" class="btn" role="button">
+            <button onclick="initGame(this.value)"  value="Beginner" class="btn" role="button">
                 <span>Beginner</span>
             </button>
-            <button onclick="initGame('medium')" class="btn" role="button">
+            <button onclick="initGame(this.value)" value="medium" class="btn" role="button">
                 <span>Medium</span>
             </button>
-            <button onclick="initGame('expert')" class="btn" role="button">
+            <button onclick="initGame(this.value)" value="expert" class="btn" role="button">
                 <span>Expert</span>
             </button>
         </div>
@@ -51,11 +51,10 @@
                 <span>Mark</span>
             </button>
         </div>
-
     </section>
 
     <footer>
-        <h3>Main-Sweeper <span> made By &copy; Oz Zaken</span></h3>
+        Main-Sweeper <span> made By &copy; Oz Zaken</span>
     </footer>
 
     <script src="js/util.js"></script>

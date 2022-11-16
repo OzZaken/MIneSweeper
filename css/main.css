@@ -1,9 +1,3 @@
-/* DONE: 1. Board is square and cells are squares */
-/* DONE: 2. Cells keep their size when hovered and when revealed */
-/* Done: 3. Board keeps its position (shouldn't move) along all game */
-/* Done: 5. Add a footer at the bottom of the page with your full name. */
-/* todo: 4. Mines look like mines. */
-
 * {
     box-sizing: border-box;
 }
@@ -77,16 +71,6 @@ footer {
     font-size: 24px;
 }
 
-/* .main-sweeper:not(:first-child) { */
-    /* display: flex; */
-    /* justify-content: space-between; */
-    
-    /* background-image: linear-gradient(144deg, #5B42F3, #AF40FF 50%, #00DDEB); */
-    /* border-bottom: rgb(5, 6, 45) 8px solid; */
-    /* border-left: rgb(5, 6, 45) 8px solid; */
-    /* border-right: rgb(5, 6, 45) 8px solid; */
-
-/* } */
 
 /** Cell */
 .cell {
@@ -111,38 +95,12 @@ footer {
     border-bottom: 5px solid rgba(18, 16, 16, 0.806);
 }
 
-/* .cell[data-minesCount="2"] {color: green;} */
-/* .cell[data-minesCount="3"] {color: red;} */
-/* .cell[data-minesCount="4"] {color: rgb(0, 0, 123);} */
-/* .cell[data-minesCount="5"] {color: purple;} */
-/* .cell[data-minesCount="1"] {color: blue;} */
-.cell[data-minesCount="2"] {
-    color: green;
-}
+.cell[data-minesCount="1"] {color: blue;}
+.cell[data-minesCount="2"] {color: green;}
+.cell[data-minesCount="3"] {color: red;}
+.cell[data-minesCount="4"] {color: #AF40FF}
+.cell[data-minesCount="5"] {color: purple;}
 
-.cell[data-minesCount="3"] {
-    color: red;
-}
-
-.cell[data-minesCount="4"] {
-    color: rgb(0, 0, 123);
-}
-
-.cell[data-minesCount="5"] {
-    color: purple;
-}
-
-.cell[data-minesCount="1"] {
-    color: blue;
-}
-
-.clicked {
-    background-color: lightslategray;
-    border-top: 3px solid black;
-    border-right: 3px solid white;
-    border-left: 3px solid black;
-    border-bottom: 3px solid white;
-}
 
 .cell.marked {
     background-color: red;
@@ -155,8 +113,14 @@ footer {
     background-color: transparent;
 }
 
-
-
+/** Cell & Face */
+.clicked {
+    background-color: lightslategray;
+    border-top: 3px solid black;
+    border-right: 3px solid white;
+    border-left: 3px solid black;
+    border-bottom: 3px solid white;
+}
 .btn {
     background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
     border-radius: 8px;
@@ -175,60 +139,21 @@ footer {
     /* touch-action: manipulation; */
 }
 
-.btn:active,
-.btn:hover {
-    outline: 0;
-}
-
 .btn span {
     background-color: rgb(5, 6, 45);
     padding: 16px 24px;
     border-radius: 6px;
-    width: 100%;
-    height: 100%;
     transition: 300ms;
 }
 
-.btn:hover span {
-    background: none;
-}
+.btn:hover span {background: none;}
 
 /** Tablet */
 @media (min-width: 768px) {
-    /* .levels-btns { */
-    /* /~ unset ~/ */
-    /* } */
-
-    /* .btn { */
-        /* font-size: 22px; */
-    /* } */
-
-    /* .face { */
-        /* font-size: 50px; */
-    /* } */
-
-    /* .cell { */
-        /* width: 35px; */
-        /* height: 35px; */
-        /* max-height: 35px; */
-        /* max-width: 35px; */
-        /* min-height: 35px; */
-        /* min-width: 35px; */
-    /* } */
-
-    /* .levels-btns { */
-        /* bottom: 50%; */
-        /* right: 0; */
-        /* flex-direction: column; */
-        /* transform: translateX(100%); */
-        /* width: max-content; */
-    /* } */
-
 }
 
 /** Desktop */
 @media (min-width: 1024x) {
 
-    /* .levels-btns {} */
 }
 
