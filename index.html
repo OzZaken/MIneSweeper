@@ -22,19 +22,20 @@
             <div class="hint"></div>
             <div class="timer"></div>
         </div>
-        
+
         <!-- Game Body -->
         <div onmouseleave="onMouseLeaveBoard()">
             <table class="game-table">
                 <tbody class="game-board"></tbody>
             </table>
         </div>
-        
+
         <!-- Game Btns -->
         <div class="btns-lvl">
-            <button onclick="initGame(this.value)"  value="Beginner" class="btn" role="button">
+            <button onclick="initGame(this.value)" value="Beginner" class="btn" role="button">
                 <span>Beginner</span>
             </button>
+
             <button onclick="initGame(this.value)" value="medium" class="btn" role="button">
                 <span>Medium</span>
             </button>
@@ -44,12 +45,16 @@
         </div>
 
         <div class="btns-game">
-            <button class="btn" role="button" onclick="onHint()">
+            <button class="btn" role="button" onclick="onAskHint()">
                 <span>Hint</span>
             </button>
-            <button class="btn-mobile" role="button" onclick="onMarkCell()">
+            <button class="btn btn-mobile display-none" role="button" onclick="onMarkCell()">
                 <span>Mark</span>
             </button>
+            <button onclick="onSafeClick()" class="btn" role="button">
+                <span>Safe Click</span>
+            </button>
+
         </div>
     </section>
 

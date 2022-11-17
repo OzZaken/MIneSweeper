@@ -148,6 +148,10 @@ footer {
 
 .btn:hover span {background: none;}
 
+.display-none{
+    display:none;
+}
+
 /** Tablet */
 @media (min-width: 768px) {
 }
@@ -156,4 +160,3 @@ footer {
 @media (min-width: 1024x) {
 
 }
-
