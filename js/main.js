@@ -108,7 +108,8 @@ function initGame(lvlKey) {
     gIsMouseDown = false
 
     // CurrLvl
-    gGame.currLvl = gGame.levels[lvlKey] || gGame.currLvl
+    const {levels} = gGame
+    gGame.currLvl = levels[lvlKey] || gGame.currLvl
     const { size, mines } = gGame.currLvl
 
     // Mines
@@ -167,6 +168,7 @@ function buildBoard(lvlSize, minesCount) {
 
             // Create cell
             board[i][j] = {
+                id: _makeId(),
                 pos: { i, j },
                 isShown: false,
                 isMine: isMine || false,
@@ -227,7 +229,7 @@ function getDomModalCell(pos) {
         const cell = gBoard[i][j]
         return { elCell, cell }
     }
-    const{i,j} = pos
+    const { i, j } = pos
     const cell = gBoard[i][j]
     const elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
     return { elCell, cell }
@@ -275,6 +277,7 @@ function clickedCell(pos) {
         // Set Last Mine On Board
         setRandomMines(gBoard, 1)
         setBoardNeigsCount()
+        getEmptyCells()
     }
 
     const { elCell, cell } = pos ? getDomModalCell(pos) : getDomModalCell()
@@ -333,9 +336,9 @@ function clickedCell(pos) {
     // Past All Options 
     gGame.shownCount++
     elCell.classList.add('clicked')
-    console.log('gGame.emptyCells:', gGame.emptyCells)
-    
-//!    gGame.emptyCells.findIndex(curr => curr[ID_FIELD] === id)
+    const { emptyCells } = gGame
+    const cellIdx = emptyCells.findIndex(currCell => currCell.id === cell.id)
+    emptyCells.splice(cellIdx)
 
     // Score
     const scoreToDisplay = gGame.shownCount.toString().padStart(3, '0')
