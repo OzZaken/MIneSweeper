@@ -16,20 +16,13 @@ function _getRandomColor() {
     }
     return color
 }
-function _makeId(length = 5) {
-    var txt = ''
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (var i = 0; i < length; i++) {
-        txt += possible.charAt(Math.floor(Math.random() * possible.length))
-    }
-    return txt
-}
+
 // Set element innerText 
 function renderEl(el, innerText) {
     el.innerText = innerText
 }
 
-// Timer
+// time
 function _getDateForDisplay(now) {
     const newDate = new Date(now)
     const minutes = newDate.getMinutes()

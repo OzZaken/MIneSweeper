@@ -20,20 +20,20 @@
                 onmouseout="onMouseUpFace()">
             </div>
             <div class="best-score"></div>
-            <div class="hint"></div>
-            <div class="timer"></div>
+            <div onclick="onAskHint()"  class="hint"></div>
+            <div class="time"></div>
         </div>
 
         <!-- Game Body -->
         <div onmouseleave="onMouseLeaveBoard()">
-            <table class="game-table">
-                <tbody class="game-board"></tbody>
+            <table>
+                <tbody class="board"></tbody>
             </table>
         </div>
 
         <!-- Game Btns -->
         <div class="btns-lvl">
-            <button onclick="initGame(this.value)" value="Beginner" class="btn" role="button">
+            <button onclick="initGame(this.value)" value="beginner" class="btn" role="button">
                 <span>Beginner</span>
             </button>
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="btns-game">
-            <button class="btn" role="button" onclick="onAskHint()">
+            <button class="btn" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()" onmouseout="onMouseOutHint()">
                 <span>Hint</span>
             </button>
             <button class="btn btn-mobile display-none" role="button" onclick="onMarkCell()">
@@ -57,6 +57,10 @@
             </button>
 
         </div>
+
+        <!-- Game Helpers -->
+        <div class="user-msg">💡</div>
+
     </section>
 
     <footer>
