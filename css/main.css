@@ -15,6 +15,16 @@ body {
     background-color: aliceBlue;
 }
 
+/** Header */
+.gamer-state {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    border: rgb(5, 6, 45) 8px solid;
+    font-size: 24px;
+}
 
 table {
     /* margin: auto; */
@@ -38,11 +48,10 @@ footer {
 
 .time,
 .score {
-    font-size: 20px;
+    font-size: 35px;
     color: red;
     background-color: black;
     margin: auto;
-    margin-top: 50px;
     padding: 1px 2px;
 }
 
@@ -67,52 +76,8 @@ footer {
     text-shadow: black 1px 1px 1px;
 }
 
-.gamer-state {
-    padding: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
-    border: rgb(5, 6, 45) 8px solid;
-    font-size: 24px;
-}
-/** Hint */
-.hint {
-    cursor: pointer;
-}
 
-.hint:hover {
-    text-shadow: 0 0 10px #fff88b;
-}
-.hint-hover{
-    text-shadow: 0 0 10px #fff88b;
-}
 
-@keyframes show-hint {
-    from {
-        font-size: 100px;
-        opacity: 1;
-        display: flex;
-    }
-
-    to {
-        font-size: 400px;
-        opacity: 0.02;
-        display: none;
-        filter: blur(10px)
-    }
-}
-/* User  Message */
-.user-msg{
-    font-size: 100px;
-    text-shadow: 0 0 20px #fff45f;
-    
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 
 /** Cell */
 .cell {
@@ -195,6 +160,46 @@ footer {
 
 .display-none {
     display: none;
+}
+
+/** Hint */
+.hint {
+    cursor: pointer;
+}
+
+.hint:hover {
+    text-shadow: 0 0 10px #fff88b;
+}
+
+.hint-hover {
+    text-shadow: 0 0 10px #fff88b;
+}
+
+@keyframes show-hint {
+    from {
+        font-size: 100px;
+        opacity: 1;
+        display: flex;
+    }
+
+    to {
+        font-size: 400px;
+        opacity: 0.02;
+        display: none;
+        filter: blur(10px)
+    }
+}
+
+/** User  Message */
+.user-msg {
+    font-size: 100px;
+    text-shadow: 0 0 20px #fff45f;
+
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /** Tablet */
