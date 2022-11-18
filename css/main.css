@@ -11,12 +11,13 @@
 /* html{} */
 
 body {
-    overflow-x: hidden;
     background-color: aliceBlue;
 }
 
 /** Header */
 .gamer-state {
+    position: absolute;
+    width: 100%;
     padding: 3px;
     display: flex;
     align-items: center;
@@ -27,13 +28,13 @@ body {
 }
 
 table {
-    /* margin: auto; */
-    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-button {
-    cursor: pointer;
-}
+
 
 footer {
     position: fixed;
@@ -75,9 +76,6 @@ footer {
     justify-content: center;
     text-shadow: black 1px 1px 1px;
 }
-
-
-
 
 /** Cell */
 .cell {
@@ -129,6 +127,27 @@ footer {
     border-bottom: 3px solid white;
 }
 
+/* Buttons */
+.btns-lvl,
+.btns-game{
+    width: 100%;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.btns-lvl {
+    display: flex;
+flex-direction: row;
+bottom: 4vh;
+}
+
+.btns-game {
+    display: flex;
+    flex-direction: row;
+    bottom: 15vh;
+}
+
+
 .btn {
     background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
     border-radius: 8px;
@@ -142,9 +161,10 @@ footer {
     padding: 3px;
     text-decoration: none;
     white-space: nowrap;
-    /* border: 0; */
-    /* align-items: center; */
-    /* touch-action: manipulation; */
+}
+
+[role="button"] {
+    cursor: pointer;
 }
 
 .btn span {

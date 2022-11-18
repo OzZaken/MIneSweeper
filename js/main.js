@@ -2,22 +2,37 @@
 
 const gGame = {
     isOn: false,
-    isFirstClick: true,
-    isAskHint: false,
-    isMarking: false,
-    face: null,
-    startTime: null,
-    timeInterVal: null,
-    audio: null,
-    hintCount: 3,
-    safeClickCount: 3,
-    liveCount: 3,
-    shownCount: 0,
-    markedCount: 0,
-    board: [],
-    mineCells: [],
-    emptyCells: [],
-    currLvl: 'beginner',
+    isFirstClick: true, // First click
+    isMarking: false, // Mark
+    face: null, // Face
+    startTime: null, // Time
+    timeInterVal: null, // Time
+    audio: null, // Sound Effects
+    isAskHint: false, // Hint
+    hintCount: 3, // Hint
+    safeClickCount: 3, // Safe-click
+    liveCount: 3, // Live
+    shownCount: 0, // Score
+    markedCount: 0, // Score
+    board: [], // Board
+    moveStates: [], // Undo
+    mineCells: [], // Mines cells
+    emptyCells: [], // empty cells
+    topScore: {}, // localStorage
+    gameElements: { //  game elements
+        mine: '💣',
+        flag: '🚩',
+        live: '❤️',
+        hint: '💡',
+        face: {
+            lose: '🤯',
+            sad: '😢',
+            normal: '😐',
+            nervous: '😯',
+            happy: '😊',
+            win: '😎',
+        },
+    },
     levels: {
         beginner: {
             size: 4,
@@ -33,37 +48,27 @@ const gGame = {
         },
 
     },
-    gameElements: {
-        mine: '💣',
-        flag: '🚩',
-        live: '❤️',
-        hint: '💡',
-        face: {
-            lose: '🤯',
-            sad: '😢',
-            normal: '😐',
-            nervous: '😯',
-            happy: '😊',
-            win: '😎',
-        },
-    },
+    currLvl: 'beginner',
 }
-let gIsMouseDown
 const gDomEls = {
     elBoard: null,
     elFace: null,
     elLive: null,
     elScore: null,
+    elTopScore: null,
     elTime: null,
     elHint: null,
     elUserMsg: null,
 }
-    // Call the Constant Dom Elements one only time at loading page. 
+let gIsMouseDown
+
+    //An IIFE Call the Constant Dom Elements one only time at loading page. 
     ; (() => {
-        gDomEls.elBoard = document.querySelector('.board')
         gDomEls.elFace = document.querySelector('.face')
+        gDomEls.elBoard = document.querySelector('.board')
         gDomEls.elLive = document.querySelector('.live')
         gDomEls.elScore = document.querySelector('.score')
+        gDomEls.elTopScore = document.querySelector('.top-score')
         gDomEls.elHint = document.querySelector('.hint')
         gDomEls.elTime = document.querySelector('.time')
         gDomEls.elUserMsg = document.querySelector('.user-msg')
@@ -71,8 +76,6 @@ const gDomEls = {
 
 // Initialize Game
 function initGame(lvlKey) {
-    console.clear()
-    //* Model:
     gGame.isOn = true
     gGame.isFirstClick = true
     gIsMouseDown = false
@@ -80,14 +83,14 @@ function initGame(lvlKey) {
 
     // CurrLvl
     const { levels } = gGame
-    gGame.currLvl = levels[lvlKey] || gGame.currLvl
+    gGame.currLvl = Object.keys(levels).find(strLvl => strLvl === lvlKey) || gGame.currLvl
 
     // Cells
     gGame.mineCells = []
     gGame.emptyCells = []
 
     // Board 
-    const { size } = gGame.currLvl
+    const { size } = levels[gGame.currLvl]
     gGame.board = buildBoard(size)
     renderBoard()
 
@@ -96,7 +99,7 @@ function initGame(lvlKey) {
     gGame.markedCount = 0
 
     const { live, hint, face } = gGame.gameElements
-    const { elLive, elHint, elFace, elScore } = gDomEls
+    const { elLive, elHint, elFace, elScore, elTopScore } = gDomEls
 
     // Face
     elFace.classList.remove('clicked')
@@ -106,25 +109,62 @@ function initGame(lvlKey) {
 
     // Live
     gGame.liveCount = 3
-    renderEl(elLive, live.repeat(gGame.liveCount))
+    if (gGame.currLvl === 'beginner') gGame.liveCount--
+    elLive.innerText = live.repeat(gGame.liveCount)
 
     // Hint
     gGame.isAskHint = false
     gGame.hintCount = 3
-    renderEl(elHint, hint.repeat(gGame.hintCount))
+    elHint.innerText = hint.repeat(gGame.hintCount)
 
     // Score
     gGame.shownCount = 0
-    renderEl(elScore, '000')
+    elScore.innerText = '000'
+    gGame.topScore = _loadFromStorage('main-sweeper') || {}
+    if (gGame.topScore[gGame.currLvl]) {
+        const currLvlTopScore = gGame.topScore[gGame.currLvl].split('|')
+        const TopScoreToDisplay = `best score at ${gGame.currLvl}\n` +
+            `<span class="score">${currLvlTopScore[0].padStart(3, '0')}</span>\nIn <span class="score">${currLvlTopScore[1]}</span> seconde!`
+        elTopScore.innerHTML = TopScoreToDisplay
+    }
 
     // Time
     timeReset()
 
-    //User message
-
+    // Undo
+    gGame.moveStates = []
 }
 
-// Build Board & Set Mine Random (
+// Set random Cell Recursive 
+function setRandomMines(count) {
+    if (count <= 0) return
+    const { board } = gGame
+    const randPosI = _getRandomInt(0, board.length)
+    const randPosJ = _getRandomInt(0, board[0].length)
+    const randCell = board[randPosI][randPosJ]
+    if (!randCell.isMine && !randCell.isShown) {
+        randCell.isMine = true
+        gGame.mineCells.push(randCell.pos)
+        count--
+    }
+    setRandomMines(count)
+}
+
+// return relevant {elCell, cell}
+function getDomModalCell(pos) {
+    if (!pos) {
+        const elCell = event.target
+        const { i, j } = elCell.dataset
+        const cell = gGame.board[i][j]
+        return { elCell, cell }
+    }
+    const { i, j } = pos
+    const cell = gGame.board[i][j]
+    const elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+    return { elCell, cell }
+}
+
+// Build Board & Set Mine Random  //*                  Board
 function buildBoard(lvlSize) {
     let board = []
     for (let i = 0; i < lvlSize; i++) {
@@ -143,61 +183,7 @@ function buildBoard(lvlSize) {
     return board
 }
 
-// Set random Cell Recursive 
-function setRandomMines(count) {
-    if (count <= 0) return
-    const { board } = gGame
-    const randPosI = _getRandomInt(0, board.length)
-    const randPosJ = _getRandomInt(0, board[0].length)
-    const randCell = board[randPosI][randPosJ]
-    if (!randCell.isMine) {
-        randCell.isMine = true
-        gGame.mineCells.push(randCell.pos)
-        count--
-    }
-    setRandomMines(count)
-}
-
-// Set each Cell minesCount 
-function setBoardNeigsCount() {
-    for (let i = 0; i < gGame.board.length; i++) {
-        for (let j = 0; j < gGame.board[0].length; j++) {
-            gGame.board[i][j].minesCount = getCellNeigsCount(i, j)
-            const elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
-            elCell.dataset.minescount = gGame.board[i][j].minesCount // 🐛
-        }
-    }
-}
-
-// return Cell minesCount
-function getCellNeigsCount(cellPosI, cellPosJ) {
-    let neighborsCount = 0
-    for (let i = cellPosI - 1; i <= cellPosI + 1; i++) {
-        if (i < 0 || i >= gGame.board.length) continue
-        for (let j = cellPosJ - 1; j <= cellPosJ + 1; j++) {
-            if (i === cellPosI && j === cellPosJ) continue
-            if (j < 0 || j >= gGame.board[i].length) continue
-            if (gGame.board[i][j].isMine) neighborsCount++
-        }
-    }
-    return neighborsCount
-}
-
-// return relevant {elCell, cell}
-function getDomModalCell(pos) {
-    if (!pos) {
-        const elCell = event.target
-        const { i, j } = elCell.dataset
-        const cell = gGame.board[i][j]
-        return { elCell, cell }
-    }
-    const { i, j } = pos
-    const cell = gGame.board[i][j]
-    const elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
-    return { elCell, cell }
-}
-
-// Set Cells data & mouseEvents based model:
+// Set Cells data & mouseEvents based model. 
 function renderBoard(board = gGame.board) {
     const { mine } = gGame.gameElements
     let strHtml = ''
@@ -222,19 +208,54 @@ function renderBoard(board = gGame.board) {
     document.querySelector('.board').innerHTML = strHtml
 }
 
-// Coordinate Cell Clicked based Event //*              Cell         
+// Cancel isMouseDown & set face
+function onMouseLeaveBoard() {
+    if (!gGame.isOn) return
+    gIsMouseDown = false
+    const { face } = gGame.gameElements
+    setFace(face.normal)
+}
+
+// Set each Cell minesCount  //*                        Cell  
+function setCellsNeigsCount() {
+    for (let i = 0; i < gGame.board.length; i++) {
+        for (let j = 0; j < gGame.board[0].length; j++) {
+            gGame.board[i][j].minesCount = getCellNeigsCount(i, j)
+            const elCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+            elCell.dataset.minescount = gGame.board[i][j].minesCount // 🐛
+        }
+    }
+}
+
+// return Cell minesCount 
+function getCellNeigsCount(cellPosI, cellPosJ) {
+    let neighborsCount = 0
+    for (let i = cellPosI - 1; i <= cellPosI + 1; i++) {
+        if (i < 0 || i >= gGame.board.length) continue
+        for (let j = cellPosJ - 1; j <= cellPosJ + 1; j++) {
+            if (i === cellPosI && j === cellPosJ) continue
+            if (j < 0 || j >= gGame.board[i].length) continue
+            if (gGame.board[i][j].isMine) neighborsCount++
+        }
+    }
+    return neighborsCount
+}
+
+// Coordinate Cell Clicked based Event       
 function clickedCell(pos) {
     if (gGame.isFirstClick && gGame.isAskHint) return
     const { elCell, cell } = pos ? getDomModalCell(pos) : getDomModalCell()
 
     // First Click
     if (gGame.isFirstClick) {
-        const { mines } = gGame.currLvl
+        gGame.shownCount++
+        cell.isShown = true
+        const { levels, currLvl } = gGame
+        const { mines } = levels[currLvl]
+        setRandomMines(mines)
         gGame.isFirstClick = false
         timeStart()
-        // Set Last Mine On Board
-        setRandomMines(mines)
-        setBoardNeigsCount()
+        setCellsNeigsCount()
         setEmptyCells()
     }
 
@@ -265,11 +286,11 @@ function clickedCell(pos) {
                 currElCell.classList.add('clicked')
                 const elCellValue = cell.isMine ? mine :
                     gGame.board[i][j].minesCount ? gGame.board[i][j].minesCount : ''
-                renderEl(currElCell, elCellValue)
+                currElCell.innerText = elCellValue
                 setTimeout(() => {
                     if (!gGame.board[i][j].isShown) {
                         currElCell.classList.remove('clicked')
-                        renderEl(currElCell, '')
+                        currElCell.innerText = ''
                     }
                 }, 1000)
             }
@@ -286,14 +307,14 @@ function clickedCell(pos) {
     // Cell Value
     const { mine, face } = gGame.gameElements
     const innerText = cell.isMine ? mine : cell.minesCount ? cell.minesCount : ''
-    renderEl(elCell, innerText)
+    elCell.innerText = innerText
 
     // 3 Options Clicks
     if (cell.isMine) clickOnMine(elCell, cell)
     else if (!cell.minesCount) expandShown(cell)
     else setFace(face.happy)
 
-    // Past All Options 
+    // Remove cell tracking 
     const { i, j } = cell.pos
     const { emptyCells } = gGame
     const cellIdx = emptyCells.findIndex(emptyCell => emptyCell.pos.i === i && emptyCell.pos.j === j)
@@ -302,11 +323,11 @@ function clickedCell(pos) {
     // Score
     const { elScore } = gDomEls
     const scoreToDisplay = gGame.shownCount.toString().padStart(3, '0')
-    renderEl(elScore, scoreToDisplay)
+    elScore.innerText = scoreToDisplay
 
     // Win
     // gGame.mineCells.every((mineCell) => mineCell.isShown || mineCell.isMarked)
-    const totalCells = gGame.currLvl.size ** 2
+    const totalCells = gGame.levels[gGame.currLvl].size ** 2
     if (gGame.markedCount + gGame.shownCount === totalCells) win()
 }
 
@@ -335,15 +356,13 @@ function clickOnMine(elCell, cell) {
     const { elLive } = gDomEls
     gGame.liveCount = gGame.liveCount - 1
     elLive.innerText = live.repeat(gGame.liveCount)
+    setTimeout(() => elCell.innerText = '💥', 600)
 
     // Remove this mine from mines Array 
     const { mineCells } = gGame
     const cellIdx = mineCells.findIndex(mineCell => mineCell === cell)
     console.log('cellIdx:', cellIdx)
     mineCells.splice(cellIdx, 1)
-    // Face
-    setFace(face.sad)
-    setTimeout(renderEl, 600, elCell, '💥')
     // Lose
     if (gGame.liveCount <= 0) {
         gGame.isOn = false
@@ -359,6 +378,8 @@ function clickOnMine(elCell, cell) {
             }, idx * 300)
         })
     }
+    // Face
+    setFace(face.sad)
 }
 
 // Set gIsMouseDown and Dom reaction
@@ -394,7 +415,7 @@ function onMouseOutCell(i, j) {
     event.target.classList.remove('clicked')
 }
 
-// Cancel contextmenu & set isMarking  //*           Mark
+// Cancel contextmenu & set isMarking  //*          Mark
 function onMarkCell() {
     event.preventDefault()
     gGame.isMarking = true
@@ -409,21 +430,23 @@ function markCell(elCell, cell) {
     const { currLvl } = gGame
     if (gGame.markedCount === currLvl.mines && !cell.isMarked) return
     if (!cell.isMarked) {
-        renderEl(elCell, flag)
+        elCell.innerText = flag
         gGame.markedCount++
     } else {
         gGame.markedCount--
-        renderEl(elCell, '')
+        elCell.innerText = ''
     }
     cell.isMarked = !cell.isMarked
     gGame.isMarking = false
 }
 
-// Set isAskHint //*                                 Hint
+// Set isAskHint //*                                Hint
 function onAskHint() {
     if (gGame.shownCount <= 0 || gGame.isFirstClick) return
     gGame.isAskHint = true
     const { elUserMsg } = gDomEls
+
+    elUserMsg.innerText = '💡'
     elUserMsg.style.display = 'flex'
     elUserMsg.style.animation = "show-hint 1.5s cubic-bezier(0, 0, 0.04, 0.99)"
     setTimeout(() => { elUserMsg.style.display = 'none' }, 1000)
@@ -442,7 +465,7 @@ function onMouseOutHint() {
     const { elHint } = gDomEls
     elHint.classList.remove('hint-hover')
 }
-// reveal random empty cell for sec //*             Safe-Click
+// reveal random empty cell for sec //*            Safe-Click
 function onSafeClick() {
     if (gGame.safeClickCount === 0 || gGame.isFirstClick) return
     const randEmptyCell = getRandEmptyCell()
@@ -496,7 +519,7 @@ function onMouseUpFace() {
     gDomEls.elFace.classList.remove('clicked')
 }
 
-//  Set startTime & setInterval //*              Time
+//  Set startTime & setInterval //*                Time
 function timeStart() {
     gGame.startTime = Date.now()
     gGame.timeInterVal = setInterval(renderTime, 1000, gGame.startTime)
@@ -524,17 +547,28 @@ function timeReset() {
     elTime.innerText = '00:00'
 }
 
-// Cancel isMouseDown & //*                  Board
-function onMouseLeaveBoard() {
-    if (!gGame.isOn) return
-    gIsMouseDown = false
-    const { face } = gGame.gameElements
-    setFace(face.normal)
-}
-
-// Add Score to local storage.
+// Add Score to local storage. //*                   Score
 function win() {
+    console.log('win:', gGame)
+
     timeStop()
+    const { currLvl, hintCount, liveCount, safeClickCount, shownCount, startTime } = gGame
+    const score = hintCount + liveCount + safeClickCount + shownCount
+
+    console.log('score:', score)
+    console.log('Game.topScore:', gGame.topScore)
+    const timePast = Date.now() - startTime
+    gGame.topScore[currLvl] = `${score} | ${_getDateForDisplay(timePast)}`
+    _saveToStorage('main-sweeper', gGame.topScore)
+
+    const { elScore } = gDomEls
+    let scoreToDisplay = shownCount
+    const raiseScoreInterval = setInterval(() => {
+        if (scoreToDisplay === gGame.topScore[currLvl]) clearInterval(raiseScoreInterval)
+        scoreToDisplay++
+        elScore.innerText === scoreToDisplay
+    }, 1000)
+
     const { face } = gGame.gameElements
     setTimeout(setFace, 2000, face.win)
 }

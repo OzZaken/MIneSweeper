@@ -13,16 +13,17 @@
 
     <section class="main-sweeper">
         <!-- Game Header -->
-        <div class="gamer-state">
-            <div class="score"></div>
-            <div class="live"></div>
-            <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
-                onmouseout="onMouseUpFace()">
+            <div class="gamer-state">
+                <div class="score"></div>
+                <div class="live"></div>
+                <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
+                    onmouseout="onMouseUpFace()">
+                </div>
+                <div class="best-score"></div>
+                <div onclick="onAskHint()" class="hint"></div>
+                <div class="time"></div>
             </div>
-            <div class="best-score"></div>
-            <div onclick="onAskHint()"  class="hint"></div>
-            <div class="time"></div>
-        </div>
+            <div class="top-score"></div>
 
         <!-- Game Body -->
         <div onmouseleave="onMouseLeaveBoard()">
@@ -32,21 +33,9 @@
         </div>
 
         <!-- Game Btns -->
-        <div class="btns-lvl">
-            <button onclick="initGame(this.value)" value="beginner" class="btn" role="button">
-                <span>Beginner</span>
-            </button>
-
-            <button onclick="initGame(this.value)" value="medium" class="btn" role="button">
-                <span>Medium</span>
-            </button>
-            <button onclick="initGame(this.value)" value="expert" class="btn" role="button">
-                <span>Expert</span>
-            </button>
-        </div>
-
         <div class="btns-game">
-            <button class="btn" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()" onmouseout="onMouseOutHint()">
+            <button class="btn" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()"
+                onmouseout="onMouseOutHint()">
                 <span>Hint</span>
             </button>
             <button class="btn btn-mobile display-none" role="button" onclick="onMarkCell()">
@@ -55,12 +44,22 @@
             <button onclick="onSafeClick()" class="btn" role="button">
                 <span>Safe Click</span>
             </button>
+        </div>
 
+        <div class="btns-lvl">
+            <button onclick="initGame(this.value)" value="beginner" class="btn" role="button">
+                <span>Beginner</span>
+            </button>
+            <button onclick="initGame(this.value)" value="medium" class="btn" role="button">
+                <span>Medium</span>
+            </button>
+            <button onclick="initGame(this.value)" value="expert" class="btn" role="button">
+                <span>Expert</span>
+            </button>
         </div>
 
         <!-- Game Helpers -->
-        <div class="user-msg">💡</div>
-
+        <div class="user-msg"></div>
     </section>
 
     <footer>
