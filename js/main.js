@@ -11,7 +11,7 @@ const gGame = {
     isAskHint: false, // Hint
     hintCount: 3, // Hint
     safeClickCount: 3, // Safe-click
-    liveCount: 3, // Live
+    lifeCount: 3, // Life
     shownCount: 0, // Score
     markedCount: 0, // Score
     board: [], // Board
@@ -22,7 +22,7 @@ const gGame = {
     gameElements: { //  game elements
         mine: '💣',
         flag: '🚩',
-        live: '❤️',
+        life: '❤️',
         hint: '💡',
         face: {
             lose: '🤯',
@@ -53,7 +53,7 @@ const gGame = {
 const gDomEls = {
     elBoard: null,
     elFace: null,
-    elLive: null,
+    elLife: null,
     elScore: null,
     elTopScore: null,
     elTime: null,
@@ -66,7 +66,7 @@ let gIsMouseDown
     ; (() => {
         gDomEls.elFace = document.querySelector('.face')
         gDomEls.elBoard = document.querySelector('.board')
-        gDomEls.elLive = document.querySelector('.live')
+        gDomEls.elLife = document.querySelector('.life')
         gDomEls.elScore = document.querySelector('.score')
         gDomEls.elTopScore = document.querySelector('.top-score')
         gDomEls.elHint = document.querySelector('.hint')
@@ -98,8 +98,8 @@ function initGame(lvlKey) {
     gGame.isMarking = false
     gGame.markedCount = 0
 
-    const { live, hint, face } = gGame.gameElements
-    const { elLive, elHint, elFace, elScore, elTopScore } = gDomEls
+    const { life, hint, face } = gGame.gameElements
+    const { elLife: ellife, elHint, elFace, elScore, elTopScore } = gDomEls
 
     // Face
     elFace.classList.remove('clicked')
@@ -107,10 +107,10 @@ function initGame(lvlKey) {
     setTimeout(setFace, 1500, face.happy)
     setTimeout(setFace, 2500, face.normal)
 
-    // Live
-    gGame.liveCount = 3
-    if (gGame.currLvl === 'beginner') gGame.liveCount--
-    elLive.innerText = live.repeat(gGame.liveCount)
+    // life
+    gGame.lifeCount = 3
+    if (gGame.currLvl === 'beginner') gGame.lifeCount--
+    elLife.innerText = life.repeat(gGame.lifeCount)
 
     // Hint
     gGame.isAskHint = false
@@ -349,13 +349,14 @@ function expandShown(cell) {
         }
     }
 }
+
 // Handle mine clicking & check Game Over
 function clickOnMine(elCell, cell) {
-    // Live
-    const { mine, live, face } = gGame.gameElements
-    const { elLive } = gDomEls
-    gGame.liveCount = gGame.liveCount - 1
-    elLive.innerText = live.repeat(gGame.liveCount)
+    // Life
+    const { mine, life, face } = gGame.gameElements
+    const { elLife: elLife } = gDomEls
+    gGame.lifeCount = gGame.lifeCount - 1
+    elLife.innerText = life.repeat(gGame.lifeCount)
     setTimeout(() => elCell.innerText = '💥', 600)
 
     // Remove this mine from mines Array 
@@ -364,7 +365,7 @@ function clickOnMine(elCell, cell) {
     console.log('cellIdx:', cellIdx)
     mineCells.splice(cellIdx, 1)
     // Lose
-    if (gGame.liveCount <= 0) {
+    if (gGame.lifeCount <= 0) {
         gGame.isOn = false
         setTimeout(setFace, 2000, face.lose)
         timeStop()
@@ -503,7 +504,7 @@ function setEmptyCells() {
     return emptyCells
 }
 
-//  Set Face Model and Dom //*                     Face
+//  Set Face Model and Dom //*                          Face
 function setFace(gamerFace) {
     gGame.face = gamerFace
     const { elFace } = gDomEls
@@ -519,7 +520,7 @@ function onMouseUpFace() {
     gDomEls.elFace.classList.remove('clicked')
 }
 
-//  Set startTime & setInterval //*                Time
+//  Set startTime & setInterval //*                    Time
 function timeStart() {
     gGame.startTime = Date.now()
     gGame.timeInterVal = setInterval(renderTime, 1000, gGame.startTime)
@@ -552,8 +553,8 @@ function win() {
     console.log('win:', gGame)
 
     timeStop()
-    const { currLvl, hintCount, liveCount, safeClickCount, shownCount, startTime } = gGame
-    const score = hintCount + liveCount + safeClickCount + shownCount
+    const { currLvl, hintCount, LifeCount, safeClickCount, shownCount, startTime } = gGame
+    const score = hintCount + LifeCount + safeClickCount + shownCount
 
     console.log('score:', score)
     console.log('Game.topScore:', gGame.topScore)
