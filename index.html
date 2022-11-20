@@ -13,17 +13,32 @@
 
     <section class="main-sweeper">
         <!-- Game Header -->
-            <div class="gamer-state">
-                <div class="score"></div>
-                <div class="life"></div>
-                <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
-                    onmouseout="onMouseUpFace()">
-                </div>
-                <div class="best-score"></div>
-                <div onclick="onAskHint()" class="hint"></div>
-                <div class="time"></div>
+        <div class="gamer-state">
+            <div class="score"></div>
+            <div class="life"></div>
+            <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
+                onmouseout="onMouseUpFace()">
             </div>
-            <div class="top-score"></div>
+            <div class="best-score"></div>
+            <div onclick="onAskHint()" class="hint"></div>
+            <div class="time"></div>
+        </div>
+        <div class="top-score"></div>
+
+        <!-- Levels Btns -->
+        <div class="btns-lvls">
+            <button onclick="initGame(this.value)" value="beginner" class="btn btn-lvl" role="button">
+                Beginner
+            </button>
+          
+            <button onclick="initGame(this.value)" value="medium" class="btn btn-lvl" role="button">
+                Medium
+            </button>
+           
+            <button onclick="initGame(this.value)" value="expert" class="btn btn-lvl" role="button">
+                Expert
+            </button>
+        </div>
 
         <!-- Game Body -->
         <div onmouseleave="onMouseLeaveBoard()">
@@ -44,26 +59,19 @@
             <button onclick="onSafeClick()" class="btn" role="button">
                 <span>Safe Click</span>
             </button>
+            <button onclick="onUndo()" class="btn" role="button">
+                <span>Undo</span>
+            </button>
         </div>
 
-        <div class="btns-lvl">
-            <button onclick="initGame(this.value)" value="beginner" class="btn" role="button">
-                <span>Beginner</span>
-            </button>
-            <button onclick="initGame(this.value)" value="medium" class="btn" role="button">
-                <span>Medium</span>
-            </button>
-            <button onclick="initGame(this.value)" value="expert" class="btn" role="button">
-                <span>Expert</span>
-            </button>
-        </div>
 
         <!-- Game Helpers -->
         <div class="user-msg"></div>
     </section>
 
     <footer>
-        Main-Sweeper <span> made By &copy; Oz Zaken</span>
+        Main-Sweeper
+        <span> &emsp; &copy; By Oz Zaken</span>
     </footer>
 
     <script src="js/util.js"></script>

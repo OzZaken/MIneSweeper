@@ -50,6 +50,7 @@ const gGame = {
     },
     currLvl: 'beginner',
 }
+
 const gDomEls = {
     elBoard: null,
     elFace: null,
@@ -60,9 +61,10 @@ const gDomEls = {
     elHint: null,
     elUserMsg: null,
 }
+
 let gIsMouseDown
 
-    //An IIFE Call the Constant Dom Elements one only time at loading page. 
+    // An IIFE Call the Constant Dom Elements at loading page. 
     ; (() => {
         gDomEls.elFace = document.querySelector('.face')
         gDomEls.elBoard = document.querySelector('.board')
@@ -74,8 +76,14 @@ let gIsMouseDown
         gDomEls.elUserMsg = document.querySelector('.user-msg')
     })()
 
+function renderLvls() {
+    // get Numbers of level anabel growing Game
+    Object.keys(gGame.levels).length
+
+}
 // Initialize Game
 function initGame(lvlKey) {
+    console.clear()
     gGame.isOn = true
     gGame.isFirstClick = true
     gIsMouseDown = false
@@ -84,6 +92,7 @@ function initGame(lvlKey) {
     // CurrLvl
     const { levels } = gGame
     gGame.currLvl = Object.keys(levels).find(strLvl => strLvl === lvlKey) || gGame.currLvl
+    // renderLvls()
 
     // Cells
     gGame.mineCells = []
@@ -93,13 +102,14 @@ function initGame(lvlKey) {
     const { size } = levels[gGame.currLvl]
     gGame.board = buildBoard(size)
     renderBoard()
+    gDomEls.elCells = document.querySelectorAll('.cell')
 
     // Mark
     gGame.isMarking = false
     gGame.markedCount = 0
 
     const { life, hint, face } = gGame.gameElements
-    const { elLife: ellife, elHint, elFace, elScore, elTopScore } = gDomEls
+    const { elLife, elHint, elFace, elScore, elTopScore } = gDomEls
 
     // Face
     elFace.classList.remove('clicked')
@@ -190,25 +200,27 @@ function renderBoard(board = gGame.board) {
     for (let i = 0; i < board.length; i++) {
         strHtml += '\t<tr>\n'
         for (let j = 0; j < board[0].length; j++) {
+            const currCell = board[i][j]
             // Data:
-            const className = `class="cell"`
-            const cellData = `data-i="${i}" data-j="${j}" data-minesCount="${board[i][j].minesCount}"`
+            const className = `class="cell cell-${i}-${j}"`
+            const cellData = `data-minesCount="${currCell.minesCount}" data-i="${i}" data-j="${j}" `
             // Events:
+            const onMouseOutCell = `onmouseOut="onMouseOutCell(${i},${j})"`
             const onMarkCell = `oncontextmenu="onMarkCell()"`
             const onMouseDownCell = `onmousedown="onMouseDownCell()"`
-            const onMouseOutElCell = `onmouseOut="onMouseOutCell(${i},${j})"`
             const onMouseOverElCell = `onmouseOver="onMouseOverCell()"`
             const onClickCell = `onCLick="onClickCell()"`
             // InnerText
-            const value = board[i][j].isMine ? mine : board[i][j].minesCount ? board[i][j].minesCount : ''
-            strHtml += `\t<td  ${onClickCell} ${className} ${cellData} ${onMouseOverElCell} ${onMarkCell} ${onMouseDownCell}  ${onMouseOutElCell}>${value}</td>\n`
+            const value = currCell.isMine && currCell.isShown ? mine : currCell.minesCount ? currCell.minesCount : ''
+            strHtml += `\t<td ${className} ${cellData} ${onMouseOutCell} ${onMarkCell} ${onMouseDownCell} ${onMouseOverElCell} ${onClickCell}>${value}</td>\n`
         }
         strHtml += '\t</tr>\n'
     }
-    document.querySelector('.board').innerHTML = strHtml
+    const { elBoard } = gDomEls
+    elBoard.innerHTML = strHtml
 }
 
-// Cancel isMouseDown & set face
+// Set gIsMouseDown,face & Remove Cell Event Listeners.
 function onMouseLeaveBoard() {
     if (!gGame.isOn) return
     gIsMouseDown = false
@@ -242,10 +254,9 @@ function getCellNeigsCount(cellPosI, cellPosJ) {
 }
 
 // Coordinate Cell Clicked based Event       
-function clickedCell(pos) {
+function CellClicked(pos) {
     if (gGame.isFirstClick && gGame.isAskHint) return
     const { elCell, cell } = pos ? getDomModalCell(pos) : getDomModalCell()
-
     // First Click
     if (gGame.isFirstClick) {
         gGame.shownCount++
@@ -261,8 +272,6 @@ function clickedCell(pos) {
 
     // Mark Cell
     if (gGame.isMarking) {
-        console.log('elCell:', elCell)
-        console.log('elCell:', cell)
         markCell(elCell, cell)
         return
     }
@@ -275,20 +284,21 @@ function clickedCell(pos) {
         const { elHint } = gDomEls
         elHint.innerText = hint.repeat(gGame.hintCount)
         // Reveal Cell and his neighbors for 1 sec. 
+        const { board } = gGame
         const { i, j } = cell.pos
         let cellPosI = i
         let cellPosJ = j
         for (let i = cellPosI - 1; i <= cellPosI + 1; i++) {
-            if (i < 0 || i >= gGame.board.length) continue
+            if (i < 0 || i >= board.length) continue
             for (let j = cellPosJ - 1; j <= cellPosJ + 1; j++) {
-                if (j < 0 || j >= gGame.board[i].length) continue
+                if (j < 0 || j >= board[i].length) continue
                 const currElCell = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
                 currElCell.classList.add('clicked')
-                const elCellValue = cell.isMine ? mine :
-                    gGame.board[i][j].minesCount ? gGame.board[i][j].minesCount : ''
+                const currCell = board[i][j]
+                const elCellValue = currCell.isMine ? mine : currCell.minesCount ? currCell.minesCount : ''
                 currElCell.innerText = elCellValue
                 setTimeout(() => {
-                    if (!gGame.board[i][j].isShown) {
+                    if (!currCell.isShown) {
                         currElCell.classList.remove('clicked')
                         currElCell.innerText = ''
                     }
@@ -329,6 +339,7 @@ function clickedCell(pos) {
     // gGame.mineCells.every((mineCell) => mineCell.isShown || mineCell.isMarked)
     const totalCells = gGame.levels[gGame.currLvl].size ** 2
     if (gGame.markedCount + gGame.shownCount === totalCells) win()
+    savedToMoveState()
 }
 
 // Loop throw cell neighbors for clickedCell
@@ -345,7 +356,7 @@ function expandShown(cell) {
             if (i === idxI && j === idxJ) continue // Cell === CurrCell
             const currCell = gGame.board[i][j]
             if (currCell.isMarked || currCell.isShown) continue //  is already Shown || Mark 
-            if (!currCell.minesCount) clickedCell({ i, j })
+            if (!currCell.minesCount) CellClicked({ i, j })
         }
     }
 }
@@ -401,7 +412,7 @@ function onClickCell() {
     const { cell } = getDomModalCell()
     if (cell.isMarked) return
     gIsMouseDown = false
-    clickedCell()
+    CellClicked()
 }
 
 // Add class "clicked" if MouseDown 
@@ -416,7 +427,7 @@ function onMouseOutCell(i, j) {
     event.target.classList.remove('clicked')
 }
 
-// Cancel contextmenu & set isMarking  //*          Mark
+// Cancel contextmenu & set isMarking  //*            Mark
 function onMarkCell() {
     event.preventDefault()
     gGame.isMarking = true
@@ -441,7 +452,7 @@ function markCell(elCell, cell) {
     gGame.isMarking = false
 }
 
-// Set isAskHint //*                                Hint
+// Set isAskHint //*                                    Hint
 function onAskHint() {
     if (gGame.shownCount <= 0 || gGame.isFirstClick) return
     gGame.isAskHint = true
@@ -546,6 +557,29 @@ function timeReset() {
     timeStop()
     const { elTime } = gDomEls
     elTime.innerText = '00:00'
+}
+
+//*                                                  Undo
+function onUndo() {
+    console.log('gGame.moves:', gGame.moveStates)
+    console.log('gGame.moves:', gGame.board)
+}
+function savedToMoveState() {
+    const { board, moveStates } = gGame
+    const newBoard = []
+    for (let i = 0; i < board.length; i++) {
+        newBoard[i] = []
+        for (let j = 0; j < board[0].length; j++) {
+            const currCell = board[i][j]
+            const newCell = {}
+            for (const key in currCell) {
+                newCell[key] = currCell[key]
+            }
+            newBoard[i][j] = newCell
+        }
+    }
+    moveStates.push(newBoard)
+    console.log('moveStates:', moveStates)
 }
 
 // Add Score to local storage. //*                   Score
