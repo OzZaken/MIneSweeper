@@ -33,7 +33,7 @@ const gGame = {
             win: '😎',
         },
     },
-    levels: {
+    lvls: {
         beginner: {
             size: 4,
             mines: 2
@@ -74,25 +74,41 @@ let gIsMouseDown
         gDomEls.elHint = document.querySelector('.hint')
         gDomEls.elTime = document.querySelector('.time')
         gDomEls.elUserMsg = document.querySelector('.user-msg')
+        // the Diff between
+        gDomEls.btnsLvlContainer = document.querySelector('.btns-lvl')
+        // Can get after rendering
+        setTimeout(() => {
+
+        }, 300)
     })()
 
 function renderLvls() {
-    // get Numbers of level anabel growing Game
-    Object.keys(gGame.levels).length
-
+    const { lvls } = gGame
+    const { btnsLvlContainer } = gDomEls
+    // const lvlsCount = Object.keys(gGame.lvls).length
+    let strHtml = ''
+    let lvlIdx = 0
+    for (const lvl in lvls) {
+        strHtml+= `<button onclick="initGame(this.value)" value="${Object.keys(lvls)[lvlIdx]}" class="btn btn-lvl active" role="button">${Object.keys(lvls)[lvlIdx]}</button>\n`
+        lvlIdx++
+        console.log(lvls[lvl])
+    }
+    btnsLvlContainer.innerHTML = strHtml
 }
 // Initialize Game
 function initGame(lvlKey) {
+    console.log('initGame');
     console.clear()
     gGame.isOn = true
     gGame.isFirstClick = true
     gIsMouseDown = false
     gGame.board = null
 
-    // CurrLvl
-    const { levels } = gGame
+    // Lvl
+    const { lvls: levels } = gGame
     gGame.currLvl = Object.keys(levels).find(strLvl => strLvl === lvlKey) || gGame.currLvl
-    // renderLvls()
+    renderLvls()
+    gDomEls.btnsLvl = [...document.querySelectorAll('.btn-lvl')]
 
     // Cells
     gGame.mineCells = []
@@ -261,7 +277,7 @@ function CellClicked(pos) {
     if (gGame.isFirstClick) {
         gGame.shownCount++
         cell.isShown = true
-        const { levels, currLvl } = gGame
+        const { lvls: levels, currLvl } = gGame
         const { mines } = levels[currLvl]
         setRandomMines(mines)
         gGame.isFirstClick = false
@@ -337,7 +353,7 @@ function CellClicked(pos) {
 
     // Win
     // gGame.mineCells.every((mineCell) => mineCell.isShown || mineCell.isMarked)
-    const totalCells = gGame.levels[gGame.currLvl].size ** 2
+    const totalCells = gGame.lvls[gGame.currLvl].size ** 2
     if (gGame.markedCount + gGame.shownCount === totalCells) win()
     savedToMoveState()
 }

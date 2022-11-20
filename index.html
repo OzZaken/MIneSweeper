@@ -13,7 +13,7 @@
 
     <section class="main-sweeper">
         <!-- Game Header -->
-        <div class="gamer-state">
+        <header class="flex-center">
             <div class="score"></div>
             <div class="life"></div>
             <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
@@ -22,23 +22,10 @@
             <div class="best-score"></div>
             <div onclick="onAskHint()" class="hint"></div>
             <div class="time"></div>
-        </div>
-        <div class="top-score"></div>
+        </header>
 
         <!-- Levels Btns -->
-        <div class="btns-lvls">
-            <button onclick="initGame(this.value)" value="beginner" class="btn btn-lvl" role="button">
-                Beginner
-            </button>
-          
-            <button onclick="initGame(this.value)" value="medium" class="btn btn-lvl" role="button">
-                Medium
-            </button>
-           
-            <button onclick="initGame(this.value)" value="expert" class="btn btn-lvl" role="button">
-                Expert
-            </button>
-        </div>
+        <div class="btns-lvl flex-center"></div>
 
         <!-- Game Body -->
         <div onmouseleave="onMouseLeaveBoard()">
@@ -64,14 +51,15 @@
             </button>
         </div>
 
-
         <!-- Game Helpers -->
         <div class="user-msg"></div>
+        
     </section>
 
     <footer>
         Main-Sweeper
         <span> &emsp; &copy; By Oz Zaken</span>
+        &emsp;<div class="top-score"></div>
     </footer>
 
     <script src="js/util.js"></script>

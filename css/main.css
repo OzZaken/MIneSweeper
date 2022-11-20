@@ -1,46 +1,56 @@
-* {
-    box-sizing: border-box;
-}
-
 :root {
     --color-primary: #5B42F3;
     --color-primary: #00bcd4;
     --clr-sec: #AF40FF;
 }
 
-html {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
+* {box-sizing: border-box;}
+
+html {font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;}
 
 body {
     user-select: none;
     background-color: aliceBlue;
     /* overflow-x: hidden; */
 }
+
+.main-sweeper::selection {background-color: transparent;}
+
 /**                                                  Helper */
 .display-none {display: none;}
 
-/**                                                 Header */
-.gamer-state {
-    position: absolute;
-    width: 100%;
-    padding: 3px;
+.flex-center {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* lvl */
+.active{
+    text-decoration: dashed;
+    text-transform: uppercase;
+    text-shadow: #5B42F3;
+    font-weight: bold;
+}
+
+/* Cell & Face */
+.clicked {
+    background-color: lightslategray;
+    border-top: 3px solid black;
+    border-right: 3px solid white;
+    border-left: 3px solid black;
+    border-bottom: 3px solid white;
+}
+
+/**                                                 Header */
+header {
     background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    padding: 3px;
     border: rgb(5, 6, 45) 8px solid;
-    font-size: 24px;
+    font-size: 25px;
 }
 
-table {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-
+table {margin: auto;}
 
 footer {
     position: fixed;
@@ -83,13 +93,19 @@ footer {
     justify-content: center;
     text-shadow: black 1px 1px 1px;
 }
+
+/* Top-Score */
+.top-score{
+
+}
+
+.top-score span{font-size: inherit;}
 /**                                                   Cell */
 .cell[data-minesCount="1"] {color: blue;}
 .cell[data-minesCount="2"] {color: green;}
 .cell[data-minesCount="3"] {color: red;}
 .cell[data-minesCount="4"] {color: #AF40FF}
 .cell[data-minesCount="5"] {color: purple;}
-
 
 .cell {
     cursor: pointer;
@@ -113,7 +129,6 @@ footer {
     border-bottom: 5px solid rgba(18, 16, 16, 0.806);
 }
 
-
 .cell.marked {
     background-color: red;
     border: 2;
@@ -121,29 +136,18 @@ footer {
     color: red;
 }
 
-.cell::selection {
+
+
+/**                                                Buttons */
+[role="button"],button,.btn,.hint { cursor: pointer;}
+
+
+.btn-lvl{
+text-transform: capitalize;
+    padding: 1em 2em;
+    /* Option2 background-color/border: none; */
     background-color: transparent;
-}
-
-
-.clicked {
-    /** Cell & Face */
-    background-color: lightslategray;
-    border-top: 3px solid black;
-    border-right: 3px solid white;
-    border-left: 3px solid black;
-    border-bottom: 3px solid white;
-}
-
- /**                                                Buttons */
-[role="button"],
-button,
-.btn {
-    cursor: pointer;
-}
-
-.btns-lvl {
-    display: block;
+    border: transparent;
 }
 
 .btns-game {
@@ -152,7 +156,6 @@ button,
     display: flex;
     flex-direction: row;
     bottom: 15vh;
-
 }
 
 .btn-game {
@@ -183,9 +186,6 @@ button,
 
 
 /**                                                     Hint */
-.hint {
-    cursor: pointer;
-}
 
 .hint:hover {
     text-shadow: 0 0 10px #fff88b;
