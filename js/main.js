@@ -52,7 +52,7 @@ const gGame = {
         },
 
     },
-    currLvl: 'beginner',
+    currLvlStr: 'beginner',
 }
 const gDomEls = {
     elBoard: null,
@@ -92,18 +92,19 @@ function initGame(lvlKey) {
     gIsMouseDown = false
     gGame.board = null
 
-    // Lvl
-    const { lvls: levels } = gGame
-    gGame.currLvl = Object.keys(levels).find(strLvl => strLvl === lvlKey) || gGame.currLvl
+    // Level
+    const { lvls } = gGame
+    gGame.currLvlStr = Object.keys(lvls).find(strLvl => strLvl === lvlKey) || gGame.currLvlStr
     renderLvls()
     gDomEls.btnsLvl = [...document.querySelectorAll('.btn-lvl')]
-
+    const elCurLvlBtn = gDomEls.btnsLvl.find(btnLvl => btnLvl.value === gGame.currLvlStr)
+    elCurLvlBtn.classList.add('active')
     // Cells
     gGame.mineCells = []
     gGame.emptyCells = []
 
     // Board 
-    const { size } = levels[gGame.currLvl]
+    const { size } = lvls[gGame.currLvlStr]
     gGame.board = buildBoard(size)
     renderBoard()
     gDomEls.elCells = [...document.querySelectorAll('.cell')]
@@ -123,7 +124,7 @@ function initGame(lvlKey) {
 
     // life
     gGame.lifeCount = 3
-    if (gGame.currLvl === 'beginner') gGame.lifeCount--
+    if (gGame.currLvlStr === 'beginner') gGame.lifeCount--
     elLife.innerText = life.repeat(gGame.lifeCount)
 
     // Hint
@@ -135,11 +136,17 @@ function initGame(lvlKey) {
     gGame.shownCount = 0
     elScore.innerText = '000'
     gGame.topScore = _loadFromStorage('main-sweeper') || {}
-    if (gGame.topScore[gGame.currLvl]) {
-        const currLvlTopScore = gGame.topScore[gGame.currLvl].split('|')
-        const TopScoreToDisplay = `best score at <b>${gGame.currLvl}<b>\n<br />` +
-            `<span class="score">${currLvlTopScore[0].padStart(3, '0')}</span> <span class="score">⌛${currLvlTopScore[1]}</span>`
+    console.log('gGame.topScore:', gGame.topScore)
+    const {topScore,currLvlStr} = gGame
+    console.log('topScore[currLvlStr]:', topScore[currLvlStr])
+    if (topScore[currLvlStr]) {
+        console.log('topScore[currLvlStr]:', topScore[currLvlStr])
+        const currLvlTopScore = topScore[currLvlStr].split('|')
+        const TopScoreToDisplay = `Best score: &emsp;<b>${currLvlStr}<b>\n ` +
+            `<span class="score">${currLvlTopScore[0].padStart(3, '0')}</span><span class="score">⌛${currLvlTopScore[1]}</span>`
         elTopScore.innerHTML = TopScoreToDisplay
+    } else{
+        elTopScore.innerHTML = ''
     }
 
     // Time
@@ -213,7 +220,7 @@ function renderLvls() {
 
     let lvlsStr = Object.keys(lvls)
     for (let i = 0; i < lvlsStr.length; i++) {
-        strHtml += `<button onclick="initGame(this.value)" value="${lvlsStr[i]}" class="btn btn-lvl active" role="button">${lvlsStr[i]}</button>\n`
+        strHtml += `<button onclick="initGame(this.value)" value="${lvlsStr[i]}" class="btn btn-lvl" role="button">${lvlsStr[i]}</button>\n`
     }
 
     btnsLvlContainer.innerHTML = strHtml
@@ -269,7 +276,7 @@ function CellClicked(pos) {
     if (gGame.isFirstClick) {
         gGame.shownCount++
         cell.isShown = true
-        const { lvls: levels, currLvl } = gGame
+        const { lvls: levels, currLvlStr: currLvl } = gGame
         const { mines } = levels[currLvl]
         setRandomMines(mines)
         gGame.isFirstClick = false
@@ -345,7 +352,7 @@ function CellClicked(pos) {
 
     // Win
     // gGame.mineCells.every((mineCell) => mineCell.isShown || mineCell.isMarked)
-    const totalCells = gGame.lvls[gGame.currLvl].size ** 2
+    const totalCells = gGame.lvls[gGame.currLvlStr].size ** 2
     if (gGame.markedCount + gGame.shownCount === totalCells) win()
     savedToMovesState()
 }
@@ -381,7 +388,6 @@ function clickOnMine(elCell, cell) {
     // Remove this mine from mines Array 
     const { mineCells } = gGame
     const cellIdx = mineCells.findIndex(mineCell => mineCell === cell)
-    console.log('cellIdx:', cellIdx)
     mineCells.splice(cellIdx, 1)
     // Lose
     if (gGame.lifeCount <= 0) {
@@ -466,7 +472,7 @@ function onMarkCell() {
 // Mark/Unmark cell  
 function markCell(elCell, cell) {
     const { flag } = gGame.gameElements
-    const { currLvl } = gGame
+    const { currLvlStr: currLvl } = gGame
     if (gGame.markedCount === currLvl.mines && !cell.isMarked) return
     if (!cell.isMarked) {
         elCell.innerText = flag
@@ -622,18 +628,21 @@ function savedToMovesState() {
 // Add Score to local storage. 
 function win() {
     timeStop()
-    const { currLvl, hintCount, lifeCount, safeClickCount, shownCount, startTime,topScore } = gGame
+    const { currLvlStr: currLvl, hintCount, lifeCount, safeClickCount, shownCount, startTime, topScore } = gGame
     const score = hintCount + lifeCount + safeClickCount + shownCount
 
     const timePast = Date.now() - startTime
     topScore[currLvl] = `${score} | ${_getDateForDisplay(timePast)}`
-    console.log('topScore:', topScore) // { beginner:value,}
+    console.log('topScore:', topScore) 
     _saveToStorage('main-sweeper', topScore)
 
     const { elScore } = gDomEls
     let scoreToDisplay = shownCount
     const raiseScoreInterval = setInterval(() => {
-        if (scoreToDisplay === topScore[currLvl]) clearInterval(raiseScoreInterval)
+        if (scoreToDisplay === topScore[currLvl]){
+            console.log('what upped?:')
+            clearInterval(raiseScoreInterval)
+        } 
         scoreToDisplay++
         elScore.innerText === scoreToDisplay
     }, 1000)

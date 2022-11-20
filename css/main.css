@@ -16,7 +16,8 @@ html {
 
 body {
     background-color: aliceBlue;
-    /* overflow-x: hidden; */
+    /* overflow-x: hidden; */   
+
 }
 
 footer {
@@ -34,8 +35,7 @@ footer {
 /* Top-Score */
 .top-score {}
 
-.main-sweeper::selection {
-    background-color: transparent;
+.main-sweeper {
     user-select: none;
 }
 
@@ -57,7 +57,6 @@ footer {
     text-shadow: #5B42F3;
     font-weight: bold;
 }
-
 
 /**                                                          Header */
 header {
@@ -98,27 +97,15 @@ header {
 }
 
 /**                                                          Board */
-table {
+.game-board table {
     margin: auto;
-}
-
-.game-board {
     background-image: conic-gradient(from var(--border-angle),
-            #213,
-            #112 50%,
-            #213),
-        conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
-    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)),
-        cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    animation: bg-spin 3s linear infinite;
-
-    @keyframes bg-spin {
-        to {
-            --border-angle: 1turn;
-        }
-    }
+    #213, #112 50%, #213),
+conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
+background-position: center center;
+background-repeat: no-repeat;
+animation: bgr-spin 3s linear infinite;
 
 }
 
@@ -126,6 +113,12 @@ table {
     syntax: "<angle>";
     inherits: true;
     initial-value: 0turn;
+}
+
+@keyframes bgr-spin {
+    to {
+        --border-angle: 1turn;
+    }
 }
 
 .game-board:hover {
@@ -303,4 +296,3 @@ button,
         min-width: 35px;
     }
 }
-
