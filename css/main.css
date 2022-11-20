@@ -6,19 +6,11 @@
     --clr-sec: #AF40FF;
 }
 
-* {
-    box-sizing: border-box;
-}
+* {box-sizing: border-box;}
 
-html {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
+html {font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;}
 
-body {
-    background-color: aliceBlue;
-    /* overflow-x: hidden; */   
-
-}
+body {background-color: aliceBlue;}
 
 footer {
     position: fixed;
@@ -32,17 +24,10 @@ footer {
     background-color: lightsteelblue;
 }
 
-/* Top-Score */
-.top-score {}
+.main-sweeper {user-select: none;}
 
-.main-sweeper {
-    user-select: none;
-}
-
-/**                                                         Helper */
-.display-none {
-    display: none;
-}
+/**                                                          Helper */
+.display-none {display: none;}
 
 .flex-center {
     display: flex;
@@ -50,11 +35,10 @@ footer {
     justify-content: center;
 }
 
-/* lvl */
+/**                                                            level */
 .active {
-    text-decoration: dashed;
-    text-transform: uppercase;
-    text-shadow: #5B42F3;
+    text-decoration: overline;
+    color: var(--clr-sec);
     font-weight: bold;
 }
 
@@ -96,7 +80,7 @@ header {
     text-shadow: black 1px 1px 1px;
 }
 
-/**                                                          Board */
+/**                                                           Board */
 .game-board table {
     margin: auto;
     background-image: conic-gradient(from var(--border-angle),
@@ -130,26 +114,12 @@ animation: bgr-spin 3s linear infinite;
     font-size: inherit;
 }
 
-/**                                                          Cell */
-.cell[data-minesCount="1"] {
-    color: blue;
-}
-
-.cell[data-minesCount="2"] {
-    color: green;
-}
-
-.cell[data-minesCount="3"] {
-    color: red;
-}
-
-.cell[data-minesCount="4"] {
-    color: #AF40FF
-}
-
-.cell[data-minesCount="5"] {
-    color: purple;
-}
+/**                                                           Cell */
+.cell[data-minesCount="1"] {color: blue;}
+.cell[data-minesCount="2"] {color: green;}
+.cell[data-minesCount="3"] {color: red;}
+.cell[data-minesCount="4"] {color: #AF40FF}
+.cell[data-minesCount="5"] {color: purple;}
 
 .cell {
     width: 28px;
@@ -185,28 +155,19 @@ animation: bgr-spin 3s linear infinite;
     border-bottom: 3px solid white;
 }
 
-/**                                                        Buttons */
-[role="button"],
-button,
-.btn,
-.hint {
-    cursor: pointer;
-}
-
+/**                                                         Buttons */
+[role="button"],button,.btn,.hint {cursor: pointer;}
 
 .btn-lvl {
     font-weight: light;
     text-transform: capitalize;
     padding: 1em 2em;
-    /* Option2 background-color/border: none;  Or:*/
     background-color: transparent;
     border: transparent;
 }
 
 .btns-game {
     justify-content: space-between;
-    flex-direction: row;
-    bottom: 15vh;
 }
 
 .btn-game {
@@ -231,19 +192,12 @@ button,
     transition: 300ms;
 }
 
-.btn-game:hover span {
-    background: none;
-}
+.btn-game:hover span {background: none;}
 
 
 /**                                                         Hint */
-.hint:hover {
-    text-shadow: 0 0 10px #fff88b;
-}
-
-.hint-hover {
-    text-shadow: 0 0 10px #fff88b;
-}
+.hint:hover {text-shadow: 0 0 10px #fff88b;}
+.hint-hover {text-shadow: 0 0 10px #fff88b;}
 
 @keyframes show-hint {
     from {
@@ -254,17 +208,17 @@ button,
 
     to {
         font-size: 400px;
-        opacity: 0.02;
+        opacity: 0.03;
         display: none;
         filter: blur(10px)
     }
 }
 
-/**                                                User-Message */
+/**                                                 User-Message */
 .user-msg {
     font-size: 100px;
     text-shadow: 0 0 20px #fff45f;
-
+    cursor: pointer;
     display: none;
     position: absolute;
     top: 50%;
