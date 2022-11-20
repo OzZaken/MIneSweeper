@@ -35,25 +35,25 @@
         </div>
 
         <!-- Game Btns -->
-        <div class="btns-game">
-            <button class="btn" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()"
+        <div class="btns-game flex-center">
+            <button class="btn btn-game" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()"
                 onmouseout="onMouseOutHint()">
                 <span>Hint</span>
             </button>
-            <button class="btn btn-mobile display-none" role="button" onclick="onMarkCell()">
+            <button class="btn btn-game btn-mobile display-none" role="button" onclick="onMarkCell()">
                 <span>Mark</span>
             </button>
-            <button onclick="onSafeClick()" class="btn" role="button">
+            <button onclick="onSafeClick()" class="btn btn-game" role="button">
                 <span>Safe Click</span>
             </button>
-            <button onclick="onUndo()" class="btn" role="button">
+            <button onclick="onUndo()" class="btn btn-game" role="button">
                 <span>Undo</span>
             </button>
         </div>
 
         <!-- Game Helpers -->
         <div class="user-msg"></div>
-        
+
     </section>
 
     <footer>

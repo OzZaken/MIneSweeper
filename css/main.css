@@ -1,56 +1,23 @@
 :root {
+    --border-size: 3px;
+    --border-angle: 0turn;
     --color-primary: #5B42F3;
     --color-primary: #00bcd4;
     --clr-sec: #AF40FF;
 }
 
-* {box-sizing: border-box;}
+* {
+    box-sizing: border-box;
+}
 
-html {font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;}
+html {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
 body {
-    user-select: none;
     background-color: aliceBlue;
     /* overflow-x: hidden; */
 }
-
-.main-sweeper::selection {background-color: transparent;}
-
-/**                                                  Helper */
-.display-none {display: none;}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* lvl */
-.active{
-    text-decoration: dashed;
-    text-transform: uppercase;
-    text-shadow: #5B42F3;
-    font-weight: bold;
-}
-
-/* Cell & Face */
-.clicked {
-    background-color: lightslategray;
-    border-top: 3px solid black;
-    border-right: 3px solid white;
-    border-left: 3px solid black;
-    border-bottom: 3px solid white;
-}
-
-/**                                                 Header */
-header {
-    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
-    padding: 3px;
-    border: rgb(5, 6, 45) 8px solid;
-    font-size: 25px;
-}
-
-table {margin: auto;}
 
 footer {
     position: fixed;
@@ -62,6 +29,42 @@ footer {
     display: flex;
     justify-content: center;
     background-color: lightsteelblue;
+}
+
+/* Top-Score */
+.top-score {}
+
+.main-sweeper::selection {
+    background-color: transparent;
+    user-select: none;
+}
+
+/**                                                         Helper */
+.display-none {
+    display: none;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* lvl */
+.active {
+    text-decoration: dashed;
+    text-transform: uppercase;
+    text-shadow: #5B42F3;
+    font-weight: bold;
+}
+
+
+/**                                                          Header */
+header {
+    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+    padding: 3px;
+    border: rgb(5, 6, 45) 8px solid;
+    font-size: 20px;
 }
 
 .time,
@@ -94,33 +97,77 @@ footer {
     text-shadow: black 1px 1px 1px;
 }
 
-/* Top-Score */
-.top-score{
+/**                                                          Board */
+table {
+    margin: auto;
+}
+
+.game-board {
+    background-image: conic-gradient(from var(--border-angle),
+            #213,
+            #112 50%,
+            #213),
+        conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)),
+        cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    animation: bg-spin 3s linear infinite;
+
+    @keyframes bg-spin {
+        to {
+            --border-angle: 1turn;
+        }
+    }
 
 }
 
-.top-score span{font-size: inherit;}
-/**                                                   Cell */
-.cell[data-minesCount="1"] {color: blue;}
-.cell[data-minesCount="2"] {color: green;}
-.cell[data-minesCount="3"] {color: red;}
-.cell[data-minesCount="4"] {color: #AF40FF}
-.cell[data-minesCount="5"] {color: purple;}
+@property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+}
+
+.game-board:hover {
+    animation-play-state: paused;
+}
+
+
+.top-score span {
+    font-size: inherit;
+}
+
+/**                                                          Cell */
+.cell[data-minesCount="1"] {
+    color: blue;
+}
+
+.cell[data-minesCount="2"] {
+    color: green;
+}
+
+.cell[data-minesCount="3"] {
+    color: red;
+}
+
+.cell[data-minesCount="4"] {
+    color: #AF40FF
+}
+
+.cell[data-minesCount="5"] {
+    color: purple;
+}
 
 .cell {
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-
-    width: 35px;
-    height: 35px;
-    max-height: 35px;
-    max-width: 35px;
-    min-height: 35px;
-    min-width: 35px;
+    width: 28px;
+    height: 28px;
+    max-height: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    min-width: 28px;
 
     font-weight: bold;
-    font-size: 15px;
+    font-size: 12px;
 
     background-color: darkgray;
     border-top: 5px solid rgb(112, 112, 112);
@@ -136,24 +183,35 @@ footer {
     color: red;
 }
 
+/* Cell & Face */
+.clicked {
+    background-color: lightslategray;
+    border-top: 3px solid black;
+    border-right: 3px solid white;
+    border-left: 3px solid black;
+    border-bottom: 3px solid white;
+}
+
+/**                                                        Buttons */
+[role="button"],
+button,
+.btn,
+.hint {
+    cursor: pointer;
+}
 
 
-/**                                                Buttons */
-[role="button"],button,.btn,.hint { cursor: pointer;}
-
-
-.btn-lvl{
-text-transform: capitalize;
+.btn-lvl {
+    font-weight: light;
+    text-transform: capitalize;
     padding: 1em 2em;
-    /* Option2 background-color/border: none; */
+    /* Option2 background-color/border: none;  Or:*/
     background-color: transparent;
     border: transparent;
 }
 
 .btns-game {
     justify-content: space-between;
-    position: fixed;
-    display: flex;
     flex-direction: row;
     bottom: 15vh;
 }
@@ -185,8 +243,7 @@ text-transform: capitalize;
 }
 
 
-/**                                                     Hint */
-
+/**                                                         Hint */
 .hint:hover {
     text-shadow: 0 0 10px #fff88b;
 }
@@ -224,7 +281,26 @@ text-transform: capitalize;
 
 /**                                                  Responsive */
 /* Tablet */
-@media (min-width: 768px) {}
+@media (min-width: 768px) {
+    .cell {
+        width: 30px;
+        height: 30px;
+        max-height: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        min-width: 30px;
+    }
+}
 
 /* Desktop */
-@media (min-width: 1024x) {}
+@media (min-width: 1024px) {
+    .cell {
+        width: 35px;
+        height: 35px;
+        max-height: 35px;
+        max-width: 35px;
+        min-height: 35px;
+        min-width: 35px;
+    }
+}
+
