@@ -136,18 +136,14 @@ function initGame(lvlKey) {
     gGame.shownCount = 0
     elScore.innerText = '000'
     gGame.topScore = _loadFromStorage('main-sweeper') || {}
-    console.log('gGame.topScore:', gGame.topScore)
     const {topScore,currLvlStr} = gGame
-    console.log('topScore[currLvlStr]:', topScore[currLvlStr])
     if (topScore[currLvlStr]) {
-        console.log('topScore[currLvlStr]:', topScore[currLvlStr])
         const currLvlTopScore = topScore[currLvlStr].split('|')
         const TopScoreToDisplay = `Best score: &emsp;<b>${currLvlStr}<b>\n ` +
             `<span class="score">${currLvlTopScore[0].padStart(3, '0')}</span><span class="score">⌛${currLvlTopScore[1]}</span>`
         elTopScore.innerHTML = TopScoreToDisplay
-    } else{
-        elTopScore.innerHTML = ''
-    }
+    } else elTopScore.innerHTML = ''
+
 
     // Time
     timeReset()

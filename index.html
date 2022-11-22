@@ -14,61 +14,61 @@
     <section class="main-sweeper">
         <!-- Game Header -->
         <!-- <header class="flex-center"> -->
-            <!-- <div class="score"></div> -->
-            <!-- <div class="life"></div> -->
-            <!-- <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()" -->
-                <!-- onmouseout="onMouseUpFace()"> -->
-            <!-- </div> -->
-            <!-- <div class="best-score"></div> -->
-            <!-- <div onclick="onAskHint()" class="hint"></div> -->
-            <!-- <div class="time"></div> -->
+        <!-- <div class="score"></div> -->
+        <!-- <div class="life"></div> -->
+        <!-- <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()" -->
+        <!-- onmouseout="onMouseUpFace()"> -->
+        <!-- </div> -->
+        <!-- <div class="best-score"></div> -->
+        <!-- <div onclick="onAskHint()" class="hint"></div> -->
+        <!-- <div class="time"></div> -->
         <!-- </header> -->
 
         <!-- Levels Btns -->
         <div class="btns-lvl flex-center"></div>
 
         <!-- Game Body -->
-        <div class="game-board"onmouseleave="onMouseLeaveBoard()">
+        <div class="game-board" onmouseleave="onMouseLeaveBoard()">
             <table>
-            <thead>
-                <th>Time:</th>
-                <td class="time"></td>
-                
-                <th>Score:</th>
-                <td class="score"></td>
-                
-                <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
-                onmouseout="onMouseUpFace()"></th>
+                <thead>
+                    <tr>
+                        <th>Score:</th>
+                        <td class="score"></td>
 
-                <th>Score:</th>
-                <td class="score"></td>
+                        <th>Life:</th>
+                        <td class="life"></td>
 
-                
-                <th>Hint:</th>
-                <td onclick="onAskHint()" class="hint"></td>
-                
-            </thead>
+                        <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()"
+                            onmouseup="onMouseUpFace()" onmouseout="onMouseUpFace()"></th>
+
+                        <th>Hint:</th>
+                        <td onclick="onAskHint()" class="hint"></td>
+
+                        <th><span class="emoji clock" role="img" aria-label="clock"></span></th>
+                        <td class="time"></td>
+                    </tr>
+                    <th hidden class="best-score"></th>
+                </thead>
                 <tbody class="board"></tbody>
-                <th class="best-score"></th>
-                
             </table>
-        </div>
 
-        <!-- Game Btns -->
-        <div class="btns-game flex-center">
-            <button class="btn btn-game" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()"
-                onmouseout="onMouseOutHint()">
-                <span>Hint</span>
-            </button>
-            <button class="btn btn-game btn-mobile display-none" role="button" onclick="onMarkCell()">
-                <span>Mark</span>
-            </button>
-            <button onclick="onSafeClick()" class="btn btn-game" role="button">
-                <span>Safe Click</span>
-            </button>
-            <button onclick="onUndo()" class="btn btn-game" role="button">
-                <span>Undo</span>
-            </button>
+            <!-- Game Btns -->
+            <div class="btns-game flex-center">
+                <button class="btn btn-game" role="button" onclick="onAskHint()" onmouseover="onMouseOverHint()"
+                    onmouseout="onMouseOutHint()">
+                    <span>Hint</span>
+                </button>
+                <button class="btn btn-game btn-mobile display-none" role="button" onclick="onMarkCell()">
+                    <span>Mark</span>
+                </button>
+                <button onclick="onSafeClick()" class="btn btn-game" role="button">
+                    <span>Safe Click</span>
+                </button>
+                <button onclick="onUndo()" class="btn btn-game" role="button">
+                    <span>Undo</span>
+                </button>
+            </div>
+            
         </div>
 
         <!-- Game Helpers -->
@@ -79,7 +79,7 @@
     <footer>
         Main-Sweeper
         <span> &emsp; &copy; By Oz Zaken</span>
-        
+
     </footer>
 
     <script src="js/util.js"></script>
