@@ -13,16 +13,16 @@
 
     <section class="main-sweeper">
         <!-- Game Header -->
-        <header class="flex-center">
-            <div class="score"></div>
-            <div class="life"></div>
-            <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
-                onmouseout="onMouseUpFace()">
-            </div>
-            <div class="best-score"></div>
-            <div onclick="onAskHint()" class="hint"></div>
-            <div class="time"></div>
-        </header>
+        <!-- <header class="flex-center"> -->
+            <!-- <div class="score"></div> -->
+            <!-- <div class="life"></div> -->
+            <!-- <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()" -->
+                <!-- onmouseout="onMouseUpFace()"> -->
+            <!-- </div> -->
+            <!-- <div class="best-score"></div> -->
+            <!-- <div onclick="onAskHint()" class="hint"></div> -->
+            <!-- <div class="time"></div> -->
+        <!-- </header> -->
 
         <!-- Levels Btns -->
         <div class="btns-lvl flex-center"></div>
@@ -30,7 +30,27 @@
         <!-- Game Body -->
         <div class="game-board"onmouseleave="onMouseLeaveBoard()">
             <table>
+            <thead>
+                <th>Time:</th>
+                <td class="time"></td>
+                
+                <th>Score:</th>
+                <td class="score"></td>
+                
+                <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
+                onmouseout="onMouseUpFace()"></th>
+
+                <th>Score:</th>
+                <td class="score"></td>
+
+                
+                <th>Hint:</th>
+                <td onclick="onAskHint()" class="hint"></td>
+                
+            </thead>
                 <tbody class="board"></tbody>
+                <th class="best-score"></th>
+                
             </table>
         </div>
 
