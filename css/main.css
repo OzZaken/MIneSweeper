@@ -48,6 +48,7 @@ footer {
 
 /**                                                          Board */
 table {
+    align-items: center;
     border: rgb(5, 6, 45) 8px solid;
     display: flex;
     flex-direction: column;
