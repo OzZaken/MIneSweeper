@@ -12,44 +12,35 @@
 <body onload="initGame('beginner')">
 
     <section class="main-sweeper">
-        <!-- Game Header -->
-        <!-- <header class="flex-center"> -->
-        <!-- <div class="score"></div> -->
-        <!-- <div class="life"></div> -->
-        <!-- <div class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()" -->
-        <!-- onmouseout="onMouseUpFace()"> -->
-        <!-- </div> -->
-        <!-- <div class="best-score"></div> -->
-        <!-- <div onclick="onAskHint()" class="hint"></div> -->
-        <!-- <div class="time"></div> -->
-        <!-- </header> -->
-
-        <!-- Levels Btns -->
         <div class="btns-lvl flex-center"></div>
-
         <!-- Game Body -->
         <div class="game-board" onmouseleave="onMouseLeaveBoard()">
             <table>
                 <thead>
                     <tr>
-                        <th>Score:</th>
-                        <td class="score"></td>
-
                         <th>Life:</th>
-                        <td class="life"></td>
-
-                        <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()"
-                            onmouseup="onMouseUpFace()" onmouseout="onMouseUpFace()"></th>
-
+                        <th>Score:</th>
                         <th>Hint:</th>
-                        <td onclick="onAskHint()" class="hint"></td>
-
                         <th><span class="emoji clock" role="img" aria-label="clock"></span></th>
-                        <td class="time"></td>
                     </tr>
-                    <th hidden class="best-score"></th>
+                        <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
+                        onmouseout="onMouseUpFace()">
+                    </tr>
+                    <tr>
+                        <td class="score"></td>
+                        <td class="life"></td>
+                        <td onclick="onAskHint()" class="hint"></td>
+                        <td class="time"></td>
+
+                    </tr>
+                   
+
                 </thead>
+
+
+
                 <tbody class="board"></tbody>
+                &emsp;<tr class="top-score flex-center"></tr>
             </table>
 
             <!-- Game Btns -->
@@ -68,12 +59,11 @@
                     <span>Undo</span>
                 </button>
             </div>
-            
+
         </div>
 
         <!-- Game Helpers -->
         <div class="user-msg"></div>
-        &emsp;<div class="top-score flex-center"></div>
     </section>
 
     <footer>

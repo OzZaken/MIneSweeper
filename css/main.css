@@ -6,11 +6,17 @@
     --clr-sec: #AF40FF;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-html { font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; }
+html {
+  font-family: monospace;
+}
 
-body {background-color: aliceBlue;}
+body {
+    background-color: aliceBlue;
+}
 
 footer {
     position: fixed;
@@ -24,10 +30,20 @@ footer {
     background-color: lightsteelblue;
 }
 
-.main-sweeper {user-select: none;}
+.main-sweeper {
+    user-select: none;
+}
 
-/**                                                               Helper */
-.display-none {display: none;}
+/**                                                               Helpers */
+.display-none {
+    display: none;
+}
+
+.active {
+    text-decoration: overline;
+    color: var(--clr-sec);
+    font-weight: bold;
+}
 
 .flex-center {
     display: flex;
@@ -47,23 +63,55 @@ footer {
 }
 
 /**                                                          Board */
-table {
-    align-items: center;
-    border: rgb(5, 6, 45) 8px solid;
-    display: flex;
-    flex-direction: column;
-    background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+table td {
+    font-weight: 700;
+    text-align: center;
+    background-color: white;
 }
 
-th {
-    padding: 3px;
-    font-size: 20px;
+td:hover {
+    color: #333;
 }
+/* thead{ */
+    /* display: flex; */
+    /* flex-direction: column;    */
+/* } */
+
+/* thead tr{ */
+/* display: flex; */
+/* flex-direction: row; */
+/* flex-wrap: no-wrap; */
+/* width: 100%; */
+/* } */
+
+/* th { */
+    /* padding: 3px; */
+    /* font-size: 1rem; */
+/* } */
+
+/* thead tr th{ */
+/* background-color: red; */
+/* } */
+
+/* thead tr td{ */
+/* align-self: flex-end; */
+/* background-color: green; */
+/* display: flex; */
+/* flex-direction: column; */
+/* flex-basis: 100%; */
+/* flex: 1; */
+/* } */
+
+table {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
 
 .time,
 .score {
     color: red;
-    background-color: black;
     padding: 3px 3px;
 }
 
@@ -76,23 +124,35 @@ th {
 
 .life {
     padding: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-shadow: black 1px 1px 1px;
 }
 
 
-.top-score span {
+.best-score span {
+    background-color: black;
     font-size: inherit;
 }
 
 /**                                                           Cell */
-.cell[data-minesCount="1"] {color: blue;}
-.cell[data-minesCount="2"] {color: green;}
-.cell[data-minesCount="3"] {color: red;}
-.cell[data-minesCount="4"] {color: #AF40FF}
-.cell[data-minesCount="5"] {color: purple;}
+.cell[data-minesCount="1"] {
+    color: blue;
+}
+
+.cell[data-minesCount="2"] {
+    color: green;
+}
+
+.cell[data-minesCount="3"] {
+    color: red;
+}
+
+.cell[data-minesCount="4"] {
+    color: #AF40FF
+}
+
+.cell[data-minesCount="5"] {
+    color: purple;
+}
 
 td.cell {
     padding: 5px 5px;
@@ -105,13 +165,16 @@ td.cell {
     font-weight: bold;
     font-size: 12px;
 }
-.face,.cell{
+
+.face,
+.cell {
     background-color: darkgray;
     border-top: 5px solid rgb(112, 112, 112);
     border-right: 5px solid rgba(18, 16, 16, 0.806);
     border-left: 5px solid white;
     border-bottom: 5px solid rgba(18, 16, 16, 0.806);
 }
+
 td.cell.marked {
     background-color: red;
     border: 2;
@@ -239,6 +302,7 @@ button,
         content: '🕚';
     }
 }
+
 .emoji {
     text-align: center;
 }
@@ -248,22 +312,21 @@ button,
     animation-name: clock;
     animation-duration: 5s;
 }
+
 .emoji::after {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
+
 .hourglass::after {
     content: '⏳';
     --emoji: '⌛️';
     animation-name: twoFrames;
     animation-duration: 1.2s;
 }
+
 /**                                                            level */
-.active {
-    text-decoration: overline;
-    color: var(--clr-sec);
-    font-weight: bold;
-}
+
 
 /**                                                        Responsive */
 /* Tablet */
