@@ -15,27 +15,29 @@
         <div class="btns-lvl flex-center"></div>
         <!-- Game Body -->
         <div class="game-board" onmouseleave="onMouseLeaveBoard()">
+            <div class="emoji clock" role="img" aria-label="clock"></div>
             <table>
-                <thead>
+                <tbody>
+                    <thead>
+                        <tr>
+                            <th>Life:</th>
+                            <th>Score:</th>
+                            <th>Hint:</th>
+                            <th>Time:</th>
+                        </tr>
+                    </thead>
                     <tr>
-                        <th>Life:</th>
-                        <th>Score:</th>
-                        <th>Hint:</th>
-                        <th><span class="emoji clock" role="img" aria-label="clock"></span></th>
-                    </tr>
-                        <th class="face" onmousedown="onMouseDownFace()" onclick="initGame()" onmouseup="onMouseUpFace()"
-                        onmouseout="onMouseUpFace()">
-                    </tr>
-                    <tr>
-                        <td class="score"></td>
                         <td class="life"></td>
+                        <td class="score"></td>
+                        <td class="face" onmousedown="onMouseDownFace()" onclick="initGame()"
+                            onmouseup="onMouseUpFace()" onmouseout="onMouseUpFace()">
+                        </td>
                         <td onclick="onAskHint()" class="hint"></td>
                         <td class="time"></td>
-
                     </tr>
-                   
+                </tbody>
 
-                </thead>
+
 
 
 

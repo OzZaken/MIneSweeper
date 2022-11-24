@@ -63,51 +63,19 @@ footer {
 }
 
 /**                                                          Board */
-table td {
-    font-weight: 700;
-    text-align: center;
-    background-color: white;
-}
 
-td:hover {
-    color: #333;
-}
-/* thead{ */
-    /* display: flex; */
-    /* flex-direction: column;    */
-/* } */
-
-/* thead tr{ */
-/* display: flex; */
-/* flex-direction: row; */
-/* flex-wrap: no-wrap; */
-/* width: 100%; */
-/* } */
-
-/* th { */
-    /* padding: 3px; */
-    /* font-size: 1rem; */
-/* } */
-
-/* thead tr th{ */
-/* background-color: red; */
-/* } */
-
-/* thead tr td{ */
-/* align-self: flex-end; */
-/* background-color: green; */
-/* display: flex; */
-/* flex-direction: column; */
-/* flex-basis: 100%; */
-/* flex: 1; */
-/* } */
 
 table {
-    align-items: center;
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
+
+table td {
+    font-weight: 700;
+    text-align: center;
+}
 
 .time,
 .score {
