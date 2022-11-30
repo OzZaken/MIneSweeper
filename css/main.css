@@ -95,7 +95,6 @@ table td {
     text-shadow: black 1px 1px 1px;
 }
 
-
 .best-score span {
     background-color: black;
     font-size: inherit;
@@ -293,6 +292,11 @@ button,
     animation-duration: 1.2s;
 }
 
+@keyframes twoFrames {
+    50% {
+        content: var(--emoji);
+    }
+}
 /**                                                            level */
 
 

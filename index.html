@@ -20,26 +20,18 @@
                 <tbody>
                     <thead>
                         <tr>
-                            <th>Life:</th>
-                            <th>Score:</th>
-                            <th>Hint:</th>
-                            <th>Time:</th>
+                            <th>Life:<td class="life"></td></th>
+                            <th>Score:<td class="score"></td></th>
+                            <th>Hint:<td onclick="onAskHint()" class="hint"></td></th>
+                            <th class="emoji hourglass" role="img" aria-label="time"><td class="time"></td></th>
                         </tr>
                     </thead>
                     <tr>
-                        <td class="life"></td>
-                        <td class="score"></td>
                         <td class="face" onmousedown="onMouseDownFace()" onclick="initGame()"
                             onmouseup="onMouseUpFace()" onmouseout="onMouseUpFace()">
                         </td>
-                        <td onclick="onAskHint()" class="hint"></td>
-                        <td class="time"></td>
                     </tr>
                 </tbody>
-
-
-
-
 
                 <tbody class="board"></tbody>
                 &emsp;<tr class="top-score flex-center"></tr>
