@@ -11,4 +11,4 @@ The classic game built with vanilla JavaScript.
 5. Game over if you uncover X cells containing a mine
 
 
-<img src="assets/img/readme/1.1.png" alt="App preview">
+<img src="assets/img/readme/1.png" alt="App preview">
