@@ -64,13 +64,11 @@ footer {
 
 /**                                                          Board */
 
-
 table {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
-
 
 table td {
     font-weight: 700;
